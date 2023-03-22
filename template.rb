@@ -150,7 +150,7 @@ def add_toastr_helper
                     end
                 end
             RUBY
-  insert_into_file "helpers/application_helper.rb", "#{helper}\n", after: "module ApplicationHelper\n"
+  insert_into_file "app/helpers/application_helper.rb", "#{helper}\n", after: "module ApplicationHelper\n"
 end
 
 def add_announcements
