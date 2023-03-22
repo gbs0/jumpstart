@@ -107,6 +107,7 @@ def copy_templates
   copy_file "esbuild.config.mjs"
   copy_file "app/javascript/application.js"
   copy_file "app/javascript/controllers/index.js"
+  copy_file "app/javascript/controllers/flash_controller.js"
 
   directory "app", force: true
   directory "config", force: true
