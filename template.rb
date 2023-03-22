@@ -138,6 +138,20 @@ def add_sidekiq
   insert_into_file "config/routes.rb", "#{content}\n", after: "Rails.application.routes.draw do\n"
 end
 
+def add_toastr_helper
+  helper = <<~RUBY
+              def flash_messages
+                capture do
+                    flash.each do |key, value|
+                    concat tag.div(
+                        data: { controller: :flash, flash_key: key, flash_value: value }
+                    )
+                    end
+                end
+            RUBY
+  insert_into_file "helpers/application_helper.rb", "#{helper}\n", after: "module ApplicationHelper\n"
+end
+
 def add_announcements
   generate "model Announcement published_at:datetime announcement_type name description:text"
   route "resources :announcements, only: [:index]"
@@ -191,6 +205,10 @@ end
 
 def add_preline_ui_css
   insert_into_file 'app/assets/stylesheets/application.scss', '@import "~preline-ui/src/preline-ui";'
+end
+
+def add_toastr_css
+  insert_into_file 'app/assets/stylesheets/application.scss', '@import "toastr/toastr";'
 end
 
 def add_esbuild_script
@@ -548,6 +566,11 @@ def add_tailwind_config
   insert_into_file "./tailwind.config.js", "  " + template + "\n"
 end
 
+def add_stimulus_controllers
+  run "rails generate stimulus flash"
+  say %(Stimuls Flash controller generated succesfully!), :green
+end
+
 def add_gem(name, *options)
   gem(name, *options) unless gem_exists?(name)
 end
@@ -570,6 +593,7 @@ after_bundle do
   add_users
   add_authorization
   add_javascript
+  add_toastr_helper
   add_announcements
   add_notifications
   add_multiple_authentication
@@ -581,6 +605,7 @@ after_bundle do
   add_announcements_css
   add_tailwind_css
   add_preline_ui_css
+  add_toastr_css
   rails_command "active_storage:install"
 
   # Make sure Linux is in the Gemfile.lock for deploying
@@ -590,6 +615,7 @@ after_bundle do
 
   add_esbuild_script
   add_tailwind_config
+  add_stimulus_controllers
 
   # Commit everything to git
   unless ENV["SKIP_GIT"]
