@@ -324,7 +324,10 @@ module.exports = {
         opacity: ['responsive', 'hover', 'focus', 'group-hover'],
         backgroundColor: ['responsive', 'hover', 'focus', 'group-hover'],
     },
-    plugins: [require('preline/plugin'), require('tailwindcss')],
+    plugins: [
+        require('preline/plugin') 
+        // require('tailwindcss')
+    ],
     content: [
         './app/views/**/*.html.erb',
         './app/helpers/**/*.rb',

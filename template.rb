@@ -34,7 +34,8 @@ def rails_6_or_newer?
 end
 
 def add_gems
-  add_gem 'cssbundling-rails'
+  # add_gem 'cssbundling-rails'
+  add_gem 'sass-rails'
   add_gem 'devise', '~> 4.9'
   add_gem 'friendly_id', '~> 5.4'
   add_gem 'jsbundling-rails'
@@ -93,7 +94,12 @@ def default_to_esbuild
 end
 
 def add_javascript
-  run "yarn add local-time esbuild-rails trix @hotwired/stimulus @hotwired/turbo-rails @rails/activestorage @rails/ujs @rails/request.js tailwindcss preline toastr  lightningcss @tailwindcss/oxide"
+  run "yarn add local-time esbuild-rails trix @hotwired/stimulus @hotwired/turbo-rails @rails/activestorage @rails/ujs @rails/request.js tailwindcss preline toastr lightningcss @tailwindcss/oxide"
+  # run "yarn add local-time esbuild-rails trix @hotwired/stimulus @hotwired/turbo-rails @rails/activestorage @rails/ujs @rails/request.js toastr"
+end
+
+def add_npm_packages
+  run "npm install -D chokidar tailwindcss preline"
 end
 
 def copy_templates
@@ -195,33 +201,37 @@ def add_sitemap
   rails_command "sitemap:install"
 end
 
-# def add_bootstrap
-#   rails_command "css:install:bootstrap"
-# end
-
-def add_tailwind
-  rails_command "css:install:tailwind"
+def add_bootstrap
+  rails_command "css:install:bootstrap"
 end
 
-# def add_application_scss
-#   run "touch app/assets/stylesheets/application.bootstrap.css"
-#   say %(File applications.scss created sucessfully!), :green
-# end
+def add_tailwind
+  rails_command "cssbundling:assets application"
+end
+
+def add_application_scss
+  run "touch app/assets/stylesheets/application.scss"
+  say %(File assets/stylesheets/application.scss created sucessfully!), :green
+end
+
+def add_bootstrap_css
+  insert_into_file 'app/assets/stylesheets/application.scss', "@import 'bootstrap/scss/bootstrap';\n" 
+end
 
 def add_announcements_css
-  insert_into_file 'app/assets/stylesheets/application.tailwind.css', "@import 'jumpstart/announcements';\n"
+  insert_into_file 'app/assets/stylesheets/application.scss', "@import 'jumpstart/announcements';\n"
 end
 
 def add_tailwind_css
-  insert_into_file 'app/assets/stylesheets/application.tailwind.css', "@import 'tailwindcss/base';\n@import 'tailwindcss/components';\n@import 'tailwindcss/utilities';\n" 
+  insert_into_file 'app/assets/stylesheets/application.scss', "@import 'tailwindcss/base';\n@import 'tailwindcss/components';\n@import 'tailwindcss/utilities';\n" 
 end
 
 def add_preline_ui_css
-  insert_into_file 'app/assets/stylesheets/application.tailwind.css', "@import '~preline-ui/src/preline-ui';\n"
+  insert_into_file 'app/assets/stylesheets/application.scss', "@import '~preline-ui/src/preline-ui';\n"
 end
 
 def add_toastr_css
-  insert_into_file 'app/assets/stylesheets/application.tailwind.css', "@import 'toastr/toastr';\n"
+  insert_into_file 'app/assets/stylesheets/application.scss', "@import 'toastr/toastr';\n"
 end
 
 def add_esbuild_script
@@ -239,14 +249,9 @@ def add_esbuild_script
   end
 end
 
-def add_tailwind_initializer
-  run "bin/yarn tailwindcss init"
-  say %(Tailwind init succesfully!), :green
-end
-# def add_tailwind_config
-#   template = """
-#   """.strip
-#   insert_into_file "./tailwind.config.js", "  " + template + "\n"
+# def add_tailwind_initializer
+#   run "bin/yarn tailwindcss init"
+#   say %(Tailwind init succesfully!), :green
 # end
 
 def add_stimulus_controllers
@@ -255,7 +260,7 @@ def add_stimulus_controllers
 end
 
 def add_toastr_in_application_view
-  inject_into_file 'app/views/layouts/application.html.erb', "<%= flash_messages %>", after: '  <body>'
+  inject_into_file 'app/views/layouts/application.html.erb', "\n<%= flash_messages %>", after: '  <body>'
 end
 
 def add_gem(name, *options)
@@ -286,8 +291,10 @@ after_bundle do
   add_multiple_authentication
   add_sidekiq
   add_friendly_id
+  add_application_scss
+  # add_npm_packages
   # add_bootstrap
-  add_tailwind
+  # add_tailwind
   add_whenever
   add_sitemap
   add_announcements_css
