@@ -13,9 +13,6 @@ require("@rails/ujs").start()
 import './channels/**/*_channel.js'
 import "./controllers"
 
-import * as tailwind from "tailwindcss"
-import 'preline'
-
 document.addEventListener("turbo:load", () => {
   // var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
   // var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
