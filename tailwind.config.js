@@ -325,8 +325,9 @@ module.exports = {
         backgroundColor: ['responsive', 'hover', 'focus', 'group-hover'],
     },
     plugins: [
-        require('preline/plugin') 
-        // require('tailwindcss')
+        require('preline/plugin'),
+        require('tailwindcss'),
+        require('autoprefixer')
     ],
     content: [
         './app/views/**/*.html.erb',

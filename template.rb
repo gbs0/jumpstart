@@ -94,8 +94,8 @@ def default_to_esbuild
 end
 
 def add_javascript
-  run "yarn add local-time esbuild-rails trix @hotwired/stimulus @hotwired/turbo-rails @rails/activestorage @rails/ujs @rails/request.js tailwindcss preline toastr lightningcss @tailwindcss/oxide"
-  # run "yarn add local-time esbuild-rails trix @hotwired/stimulus @hotwired/turbo-rails @rails/activestorage @rails/ujs @rails/request.js toastr"
+  # run "yarn add local-time esbuild-rails trix @hotwired/stimulus @hotwired/turbo-rails @rails/activestorage @rails/ujs @rails/request.js tailwindcss preline toastr lightningcss @tailwindcss/oxide"
+  run "yarn add local-time esbuild-rails trix @hotwired/stimulus @hotwired/turbo-rails @rails/activestorage @rails/ujs @rails/request.js toastr"
 end
 
 def add_npm_packages
@@ -292,7 +292,7 @@ after_bundle do
   add_sidekiq
   add_friendly_id
   add_application_scss
-  # add_npm_packages
+  add_npm_packages
   # add_bootstrap
   # add_tailwind
   add_whenever
