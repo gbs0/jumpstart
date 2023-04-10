@@ -95,7 +95,7 @@ end
 
 def add_javascript
   # run "yarn add local-time esbuild-rails trix @hotwired/stimulus @hotwired/turbo-rails @rails/activestorage @rails/ujs @rails/request.js tailwindcss preline toastr lightningcss @tailwindcss/oxide"
-  run "yarn add local-time esbuild-rails trix @hotwired/stimulus @hotwired/turbo-rails @rails/activestorage @rails/ujs @rails/request.js toastr"
+  run "yarn add local-time esbuild-rails trix @hotwired/stimulus @hotwired/turbo-rails @rails/activestorage @rails/ujs @rails/request.js toastr chokidar"
 end
 
 def add_npm_packages
@@ -206,7 +206,8 @@ def add_bootstrap
 end
 
 def add_tailwind
-  rails_command "cssbundling:assets application"
+  # rails_command "cssbundling:assets application"
+  rails_command "tailwindcss:install"
 end
 
 def add_application_scss
@@ -292,12 +293,13 @@ after_bundle do
   add_sidekiq
   add_friendly_id
   add_application_scss
-  add_npm_packages
+  # add_npm_packages
   # add_bootstrap
   # add_tailwind
   add_whenever
   add_sitemap
   add_announcements_css
+  add_bootstrap_css
   add_tailwind_css
   add_preline_ui_css
   add_toastr_css
