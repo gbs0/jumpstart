@@ -216,11 +216,11 @@ def add_application_scss
 end
 
 def add_bootstrap_css
-  insert_into_file 'app/assets/stylesheets/application.bootstrap.scss', "@import 'bootstrap/scss/bootstrap';\n" 
+  insert_into_file 'app/assets/stylesheets/application.css', "@import 'bootstrap/scss/bootstrap';\n" 
 end
 
 def add_announcements_css
-  insert_into_file 'app/assets/stylesheets/application.bootstrap.scss', "@import 'jumpstart/announcements';\n"
+  insert_into_file 'app/assets/stylesheets/application.css', "@import 'jumpstart/announcements';\n"
 end
 
 def add_tailwind_css
