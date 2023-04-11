@@ -216,11 +216,11 @@ def add_application_scss
 end
 
 def add_bootstrap_css
-  insert_into_file 'app/assets/stylesheets/application.scss', "@import 'bootstrap/scss/bootstrap';\n" 
+  insert_into_file 'app/assets/stylesheets/application.bootstrap.scss', "@import 'bootstrap/scss/bootstrap';\n" 
 end
 
 def add_announcements_css
-  insert_into_file 'app/assets/stylesheets/application.scss', "@import 'jumpstart/announcements';\n"
+  insert_into_file 'app/assets/stylesheets/application.bootstrap.scss', "@import 'jumpstart/announcements';\n"
 end
 
 def add_tailwind_css
@@ -292,18 +292,21 @@ after_bundle do
   add_multiple_authentication
   add_sidekiq
   add_friendly_id
-  add_application_scss
+  # add_application_scss
   # add_npm_packages
-  # add_bootstrap
+  add_bootstrap
   # add_tailwind
   add_whenever
   add_sitemap
   add_announcements_css
   add_bootstrap_css
-  add_tailwind_css
-  add_preline_ui_css
-  add_toastr_css
+  # add_tailwind_css
+  # add_preline_ui_css
+  # add_toastr_css
   rails_command "active_storage:install"
+
+  # Make sure to run all peding migrations
+  rails_command "db:create db:migrate"
 
   # Make sure Linux is in the Gemfile.lock for deploying
   run "bundle lock --add-platform x86_64-linux"
@@ -313,6 +316,7 @@ after_bundle do
   add_esbuild_script
   add_stimulus_controllers
   add_toastr_in_application_view
+
   # Commit everything to git
   unless ENV["SKIP_GIT"]
     git :init
